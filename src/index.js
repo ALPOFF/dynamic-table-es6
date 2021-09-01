@@ -115,6 +115,6 @@ select.onchange = function clearHighlight() {
     let tableDataRows = Array.from(document.querySelectorAll("td"));
     tableDataRows.forEach(el => {
         el.removeAttribute("style");
-        input.value = '';
+        input.value = "";
     })
 }
