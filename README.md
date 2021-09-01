@@ -7,4 +7,8 @@
 </ul>
 
 <img src="https://sun9-9.userapi.com/impg/TiOYiW3_LL-Tqa_QUGz5MrktNlP324ciSAsjdA/P7KuinfGnz0.jpg?size=670x414&quality=96&sign=f2d93935b3aebf1ad2b2343878a3fed5&type=album" height=200/>
-npm run build - для сборки проекта в папку dist
+Для сборки проекта в папку dist выполните следующие команды:
+<ul>
+  <li>npm install</li>
+  <li>npm run build</li>
+</ul>
