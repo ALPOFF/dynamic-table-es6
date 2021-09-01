@@ -12,3 +12,4 @@
   <li>npm install</li>
   <li>npm run build</li>
 </ul>
+data.json - файл с данными для таблицы
