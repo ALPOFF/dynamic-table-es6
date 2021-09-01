@@ -1,3 +1,11 @@
+%search-components {
+	width: 100px;
+	height: 20px;
+	border: 1px #ccc solid;
+	vertical-align: top;
+	margin-right: 5px;
+}
+
 table {
 	width: 300px;
 	border-collapse: collapse;
@@ -7,10 +15,12 @@ td {
 	border: 1px solid rgb(116, 116, 116);
 }
 th {
-	padding: 3px;
-	border: 1px solid rgb(116, 116, 116);
+	@extend td;
 	color: white;
 	background: #275b5f;
+	&:hover {
+		cursor: pointer;
+	}
 }
 option {
 	-webkit-box-sizing: border-box;
@@ -18,20 +28,12 @@ option {
 	box-sizing: border-box;
 }
 input {
+	@extend %search-components;
 	@extend option;
-	width: 100px;
-	height: 20px;
-	border: 1px #ccc solid;
-	vertical-align: top;
-	margin-right: 5px;
 }
 select {
+	@extend %search-components;
 	@extend option;
-	width: 100px;
-	height: 20px;
-	border: 1px #ccc solid;
-	vertical-align: top;
-	margin-right: 5px;
 	box-shadow: none;
 }
 .table-container {
