@@ -1,4 +1,5 @@
 const path = require('path');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: ['./src/index.js', './src/styles.scss'],
@@ -9,6 +10,11 @@ module.exports = {
   resolve: {
     extensions: [".js"]
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+        template: './src/index.html' //relative to root of the application
+    })
+  ],
   module: {
     rules: [
       {
