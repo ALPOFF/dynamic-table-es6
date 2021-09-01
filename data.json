@@ -1,0 +1,25 @@
+{
+    "users": [
+        {   
+            "firstName": "Алексей",
+            "lastName": "Пантелеев"
+
+        },
+        {   
+            "firstName": "Ильяс",
+            "lastName": "Гарипов"
+        },
+        {   
+            "firstName": "Вячеслав",
+            "lastName": "Богатырев"
+        },
+        {   
+            "firstName": "Григорий",
+            "lastName": "Зайцев"
+        },
+        {   
+            "firstName": "Дмитрий",
+            "lastName": "Жуков"
+        }
+    ]
+}
