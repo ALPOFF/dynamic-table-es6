@@ -1,16 +1,15 @@
-import * as data from "../data.json";
-
-//Создаем таблицу
-let tableElement = document.createElement("table");
 
 /**
-  * Генерируем таблицу
+  * Генерируем таблицу из JSON файла
   * 
   * @param {Array} jsonData - первое число
   * @param {string} elementIdForTable - второе число
   * @returns {void}
   */
 function generateTable(jsonData, elementIdForTable) {
+    //Создаем таблицу
+    let tableElement = document.createElement("table");
+
     //Создаем заголовки таблицы
     let headerCellNames = "";
     let headerCellNamesArray = Object.keys(jsonData[0]);
@@ -19,7 +18,7 @@ function generateTable(jsonData, elementIdForTable) {
     }
     tableElement.innerHTML += `<tr>${headerCellNames}</tr>`;
 
-    //Добавлем остальные строки с данными
+    //Добавляем остальные строки с данными
     for (let i = 0; i < jsonData.length; i++) {
         let row = tableElement.insertRow(-1);
         for (let l = 0; l < headerCellNamesArray.length; l++) {
@@ -44,6 +43,7 @@ function generateTable(jsonData, elementIdForTable) {
 
     //Добавляем ввод
     let inputElement = document.createElement("input");
+    inputElement.addEventListener("input", findValue)
     inputElement.type = "text";
     inputElement.id = "searchInput";
     searchDivContainer.appendChild(inputElement);
@@ -51,6 +51,7 @@ function generateTable(jsonData, elementIdForTable) {
     //Добавляем селект
     let selectElement = document.createElement("select");
     selectElement.setAttribute("id", "searchSelect");
+    selectElement.addEventListener("change", clearHighlight)
 
     for (let i = 0; i < headerCellNamesArray.length; i++) {
         let optionElement = document.createElement("option");
@@ -63,58 +64,51 @@ function generateTable(jsonData, elementIdForTable) {
     //Добавляем таблицу
     tableDivContainer.innerHTML = "";
     tableDivContainer.appendChild(tableElement);
-}
+    input = document.getElementById("searchInput");
+    select = document.getElementById("searchSelect");
+    tableRows = Array.from(document.querySelectorAll("tr")).slice(1);
+    headerCellsArray = document.querySelectorAll("th");
+    headerCellsArray.forEach((el, index) => el.addEventListener("click", sortableElement.bind(this, index)));
 
-generateTable(data.users, "table");
-
-
-
-//Сортировка таблицы
-let headerCellsArray = document.querySelectorAll("th");
-let sortStatus = true; //true - отсортировано от А до Я; false - отсортировано от Я до А
-let prevColumnNumber = 0;
-let tableRows = Array.from(document.querySelectorAll("tr")).slice(1);
-
-function sortableElement(currentColumnNumber) {
-    let sortPointer = document.getElementsByClassName("sort-pointer");
-    if (!sortStatus && prevColumnNumber == currentColumnNumber) { //Проверяем был ли отсортирован текущий столбец
-        tableRows.reverse();
-        sortStatus = true;
-        sortPointer[currentColumnNumber].innerHTML = "&#9650";
-    } else {
-        //Сортируем сверяя значения от индекса столбца
-        tableRows.sort((a, b) => a.children[currentColumnNumber].innerHTML.localeCompare(b.children[currentColumnNumber].innerHTML));
-        prevColumnNumber = currentColumnNumber;
-        sortStatus = false;
-        sortPointer[currentColumnNumber].innerHTML = "&#9660";
-    }
-    tableRows.forEach(row => tableElement.appendChild(row));
-}
-
-headerCellsArray.forEach((el, index) => el.addEventListener("click", sortableElement.bind(this, index)));
-
-
-
-//Поиск
-let input = document.getElementById("searchInput");
-let select = document.getElementById("searchSelect");
-
-input.oninput = function findValue() {
-    tableRows.forEach(el => {
-        let tableRow = el.children[select.value];
-        if (tableRow.innerHTML.toLowerCase().indexOf(input.value.toLowerCase()) !== -1 && input.value !== "") {
-            tableRow.style.backgroundColor = "yellow";
+    //Сортировка таблицы
+    let sortStatus = true; //true - отсортировано от А до Я; false - отсортировано от Я до А
+    let prevColumnNumber = 0;
+    function sortableElement(currentColumnNumber) {
+        let sortPointer = document.getElementsByClassName("sort-pointer");
+        if (!sortStatus && prevColumnNumber == currentColumnNumber) { //Проверяем был ли отсортирован текущий столбец
+            tableRows.reverse();
+            sortStatus = true;
+            sortPointer[currentColumnNumber].innerHTML = "&#9650";
         } else {
-            tableRow.removeAttribute("style");
+            //Сортируем сверяя значения от индекса столбца
+            tableRows.sort((a, b) => a.children[currentColumnNumber].innerHTML.localeCompare(b.children[currentColumnNumber].innerHTML));
+            prevColumnNumber = currentColumnNumber;
+            sortStatus = false;
+            sortPointer[currentColumnNumber].innerHTML = "&#9660";
         }
-    })
+        tableRows.forEach(row => tableElement.appendChild(row));
+    }
+
+    //Поиск
+    function findValue() {
+        tableRows.forEach(el => {
+            let tableRow = el.children[select.value];
+            if (tableRow.innerHTML.toLowerCase().indexOf(input.value.toLowerCase()) !== -1 && input.value !== "") {
+                tableRow.style.backgroundColor = "yellow";
+            } else {
+                tableRow.removeAttribute("style");
+            }
+        })
+    }
+
+    //Сброс поиска и выделения полей при изменении столбца
+    function clearHighlight() {
+        let tableDataRows = Array.from(document.querySelectorAll("td"));
+        tableDataRows.forEach(el => {
+            el.removeAttribute("style");
+            input.value = "";
+        })
+    }
 }
 
-//Сброс поиска и выделения полей при изменении столбца
-select.onchange = function clearHighlight() {
-    let tableDataRows = Array.from(document.querySelectorAll("td"));
-    tableDataRows.forEach(el => {
-        el.removeAttribute("style");
-        input.value = "";
-    })
-}
+fetch("data/data.json").then(resp => resp.json()).then(data => generateTable(data.users, "table"));
