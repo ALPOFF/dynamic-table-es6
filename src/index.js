@@ -110,4 +110,7 @@ function generateTable(jsonData, elementIdForTable) {
     }
 }
 
-fetch("data/data.json").then(resp => resp.json()).then(data => generateTable(data.users, "table"));
+fetch("data/data.json")
+.then(resp => resp.json())
+.then(data => generateTable(data.users, "table"))
+.catch((error) => console.log("error:", error));;
