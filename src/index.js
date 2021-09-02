@@ -92,11 +92,10 @@ function generateTable(jsonData, elementIdForTable) {
     function findValue() {
         tableRows.forEach(el => {
             let tableRow = el.children[selectElement.value];
+            tableRow.innerHTML = tableRow.innerText;
             let cellData = tableRow.innerHTML.toLowerCase();
             if (cellData.indexOf(inputElement.value.toLowerCase()) !== -1 && inputElement.value !== "") {
                 tableRow.innerHTML = tableRow.innerHTML.replace(new RegExp(inputElement.value, "gi"), (match) => `<mark>${match}</mark>`);
-            } else {
-                tableRow.removeAttribute("style");
             }
         })
     }
