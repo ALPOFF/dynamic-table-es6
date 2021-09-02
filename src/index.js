@@ -1,4 +1,3 @@
-
 /**
   * Генерируем таблицу из JSON файла
   * 
@@ -64,13 +63,13 @@ function generateTable(jsonData, elementIdForTable) {
     //Добавляем таблицу
     tableDivContainer.innerHTML = "";
     tableDivContainer.appendChild(tableElement);
-    input = document.getElementById("searchInput");
-    select = document.getElementById("searchSelect");
-    tableRows = Array.from(document.querySelectorAll("tr")).slice(1);
-    headerCellsArray = document.querySelectorAll("th");
+
+    //Присваиваем событие сортировки при нажатии на каждое название столбца 
+    let headerCellsArray = document.querySelectorAll("th");
     headerCellsArray.forEach((el, index) => el.addEventListener("click", sortableElement.bind(this, index)));
 
     //Сортировка таблицы
+    let tableRows = Array.from(document.querySelectorAll("tr")).slice(1);
     let sortStatus = true; //true - отсортировано от А до Я; false - отсортировано от Я до А
     let prevColumnNumber = 0;
     function sortableElement(currentColumnNumber) {
@@ -92,8 +91,8 @@ function generateTable(jsonData, elementIdForTable) {
     //Поиск
     function findValue() {
         tableRows.forEach(el => {
-            let tableRow = el.children[select.value];
-            if (tableRow.innerHTML.toLowerCase().indexOf(input.value.toLowerCase()) !== -1 && input.value !== "") {
+            let tableRow = el.children[selectElement.value];
+            if (tableRow.innerHTML.toLowerCase().indexOf(inputElement.value.toLowerCase()) !== -1 && inputElement.value !== "") {
                 tableRow.style.backgroundColor = "yellow";
             } else {
                 tableRow.removeAttribute("style");
@@ -106,7 +105,7 @@ function generateTable(jsonData, elementIdForTable) {
         let tableDataRows = Array.from(document.querySelectorAll("td"));
         tableDataRows.forEach(el => {
             el.removeAttribute("style");
-            input.value = "";
+            inputElement.value = "";
         })
     }
 }

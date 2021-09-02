@@ -12,7 +12,7 @@
   <li>npm install</li>
   <li>npm run build</li>
 </ul>
-Для режима разработки выполните следующие команды:
+Для запуска локального сервера для разработки:
 <ul>
   <li>npm install</li>
   <li>npm start</li>
